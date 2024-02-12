@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Puzzle Quiz</string>
+    <string name="play_button_text">Play</string>
+    <string name="ajustos">Ajustos</string>
+    <string name="credits_text">Credits: Marti Rodriguez, Renato Dominguez</string>
+    <string name="menu_help">Ayuda</string>
+    <string name="texto_textview">TextView</string>
+    <string name="descripcion_boton_atras">Atras</string>
+    <string name="back_button_text">Volver</string>
+
+</resources>
