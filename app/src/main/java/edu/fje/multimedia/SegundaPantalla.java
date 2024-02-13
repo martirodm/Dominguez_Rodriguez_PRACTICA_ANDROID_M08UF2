@@ -25,6 +25,7 @@ public class SegundaPantalla extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_layout2);
         coordinatorLayout = findViewById(R.id.coordinator);
+        Button button = findViewById(R.id.button);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -45,6 +46,15 @@ public class SegundaPantalla extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 abrirGaleria();
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Código para abrir puzzle
+                Intent intent = new Intent(SegundaPantalla.this, PuzzleFacil.class);
+                startActivity(intent);
             }
         });
     }
