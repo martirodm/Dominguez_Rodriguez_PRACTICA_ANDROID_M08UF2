@@ -1,11 +1,16 @@
 package edu.fje.multimedia;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
@@ -35,36 +40,32 @@ public class GridAdapter extends BaseAdapter {
         //ImageView imageView;
         TextView textView;
 
-       /* if (convertView == null) {
-            // Si la vista no existe, crea una nueva ImageView
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        } else {
-            // Si la vista ya existe, reutiliza la vista
-            imageView = (ImageView) convertView;
-        }*/
-
         if (convertView == null) {
             // Si la vista no existe, crea un nuevo TextView
             textView = new TextView(mContext);
-            textView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
+            textView.setLayoutParams(new GridView.LayoutParams(200,200));
             textView.setGravity(android.view.Gravity.CENTER);
             textView.setTextSize(20); // Tamaño del texto
+            textView.setPadding(0, 0, 0, 0);
+            textView.setIncludeFontPadding(false);
+
+            int[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.GRAY, Color.LTGRAY, Color.DKGRAY};
+            textView.setBackgroundColor(colors[position % colors.length]);
         } else {
             // Si la vista ya existe, reutiliza la vista
             textView = (TextView) convertView;
         }
 
-        // Aquí puedes establecer la imagen para cada elemento de la cuadrícula
-        // Puedes usar un array de recursos de imágenes, por ejemplo
-
-        // imageView.setImageResource(mThumbIds[position]); // mThumbIds es un array de recursos de imágenes
         textView.setText(String.valueOf(position + 1));
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Se ejecuta cuando se hace clic en un bloque
+                Log.d("GridAdapter", "Bloque clicado: " + (position + 1));
+            }
+        });
+
         //return imageView;
         return textView;
     }
