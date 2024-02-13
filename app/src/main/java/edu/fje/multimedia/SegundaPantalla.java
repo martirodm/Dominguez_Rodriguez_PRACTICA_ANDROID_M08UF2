@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
+import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +20,7 @@ public class SegundaPantalla extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private ImageButton cameraButton;
     private ImageButton galleryButton;
+    private RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class SegundaPantalla extends AppCompatActivity {
         // Obtener referencias a los botones de la cámara y la galería
         cameraButton = findViewById(R.id.imageButton2);
         galleryButton = findViewById(R.id.imageButton3);
+
+        // Obtener referencia al RadioGroup
+        radioGroup = findViewById(R.id.radioGroup);
 
         // Agregar listener de clic al botón de la cámara
         cameraButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +52,28 @@ public class SegundaPantalla extends AppCompatActivity {
                 abrirGaleria();
             }
         });
+
+        // Agregar listener para detectar cambios en la selección de RadioButton
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // Desseleccionar todos los botones de opción si se selecciona uno
+                RadioButton radioButtonFacil = findViewById(R.id.radioButtonFacil);
+                RadioButton radioButtonIntermedio = findViewById(R.id.radioButtonIntermedio);
+                RadioButton radioButtonDificil = findViewById(R.id.radioButtonDificil);
+
+                if (checkedId == R.id.radioButtonFacil) {
+                    radioButtonIntermedio.setChecked(false);
+                    radioButtonDificil.setChecked(false);
+                } else if (checkedId == R.id.radioButtonIntermedio) {
+                    radioButtonFacil.setChecked(false);
+                    radioButtonDificil.setChecked(false);
+                } else if (checkedId == R.id.radioButtonDificil) {
+                    radioButtonFacil.setChecked(false);
+                    radioButtonIntermedio.setChecked(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -57,7 +84,7 @@ public class SegundaPantalla extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.ajustos){
+        if (item.getItemId() == R.id.ajustos) {
             abrirAjustos();
             return true;
         }

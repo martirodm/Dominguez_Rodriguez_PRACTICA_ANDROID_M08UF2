@@ -6,79 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".SegundaPantalla">
 
+
     <TextView
         android:id="@+id/creditsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
         android:text="@string/credits_text"
         android:textSize="12sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button"
-        app:layout_constraintVertical_bias="0.771" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <RadioButton
-        android:id="@+id/radioButton2"
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Intermedi"
-        app:layout_constraintStart_toStartOf="@+id/radioButton"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton" />
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="64dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@+id/imageButton3"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton3">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/play_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.71" />
+        <RadioButton
+            android:id="@+id/radioButtonFacil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fácil" />
 
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="276dp"
-        android:layout_marginEnd="6dp"
-        android:text="Facil"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton3"
-        app:layout_constraintTop_toTopOf="parent" />
+        <RadioButton
+            android:id="@+id/radioButtonIntermedio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intermedio" />
 
-    <RadioButton
-        android:id="@+id/radioButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dificil"
-        app:layout_constraintStart_toStartOf="@+id/radioButton2"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+        <RadioButton
+            android:id="@+id/radioButtonDificil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Difícil" />
+
+    </RadioGroup>
 
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
+        android:layout_marginStart="43dp"
         android:contentDescription="@string/camera_button_description"
         app:layout_constraintStart_toEndOf="@+id/imageButton3"
         app:layout_constraintTop_toTopOf="@+id/imageButton3"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="@string/play_button_text"
+        app:layout_constraintBottom_toTopOf="@+id/creditsTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:layout_marginBottom="73dp"
+        android:layout_marginStart="123dp"
+        android:layout_marginTop="184dp"
         android:contentDescription="@string/gallery_button_description"
-        app:layout_constraintBottom_toTopOf="@+id/radioButton"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
