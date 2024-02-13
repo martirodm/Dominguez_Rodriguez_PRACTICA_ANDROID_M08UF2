@@ -12,17 +12,22 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.snackbar.Snackbar;
+
 public class MainActivity extends AppCompatActivity {
 
     private CoordinatorLayout coordinatorLayout;
+    private CustomCanvasView customCanvasView; // Declarar la vista personalizada
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_layout);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
+        coordinatorLayout = findViewById(R.id.coordinator);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Inicializar la vista personalizada
+        customCanvasView = findViewById(R.id.customCanvas);
 
         Button button = findViewById(R.id.button); // Identifica tu botón aquí
 
