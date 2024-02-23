@@ -26,20 +26,17 @@ public class CustomCanvasView extends View {
     }
 
     private void init() {
-        // Cargar la imagen desde los recursos
         imageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.belligol);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        // Dibujar la imagen en el lienzo
         int width = canvas.getWidth();
         int height = canvas.getHeight();
 
-        // Definir el rectángulo donde se dibujará la imagen
         Rect destRect = new Rect(0, 0, width, height);
-        // Dibujar la imagen en el lienzo
+
         canvas.drawBitmap(imageBitmap, null, destRect, null);
     }
 }

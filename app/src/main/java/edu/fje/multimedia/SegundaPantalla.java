@@ -1,14 +1,16 @@
 package edu.fje.multimedia;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.RadioGroup;
-import android.widget.RadioButton;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,13 +24,13 @@ public class SegundaPantalla extends AppCompatActivity {
     private ImageButton cameraButton;
     private ImageButton galleryButton;
     private RadioGroup radioGroup;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_layout2);
         coordinatorLayout = findViewById(R.id.coordinator);
-        Button button = findViewById(R.id.button);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -38,6 +40,31 @@ public class SegundaPantalla extends AppCompatActivity {
 
         // Obtener referencia al RadioGroup
         radioGroup = findViewById(R.id.radioGroup);
+
+        // Obtener referencia al botón
+        button = findViewById(R.id.button);
+
+        // Configurar animación para el botón
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(button, "scaleX", 0f, 1f);
+        scaleXAnimator.setDuration(1000);
+        scaleXAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(button, "scaleY", 0f, 1f);
+        scaleYAnimator.setDuration(1000);
+        scaleYAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        scaleXAnimator.start();
+        scaleYAnimator.start();
+
+        // Agregar listener de clic al botón
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Código para abrir puzzle
+                Intent intent = new Intent(SegundaPantalla.this, PuzzleFacil.class);
+                startActivity(intent);
+            }
+        });
 
         // Agregar listener de clic al botón de la cámara
         cameraButton.setOnClickListener(new View.OnClickListener() {
@@ -52,15 +79,6 @@ public class SegundaPantalla extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 abrirGaleria();
-            }
-        });
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Código para abrir puzzle
-                Intent intent = new Intent(SegundaPantalla.this, PuzzleFacil.class);
-                startActivity(intent);
             }
         });
 
@@ -114,9 +132,10 @@ public class SegundaPantalla extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivity(intent);
     }
-
     private void abrirAjustos() {
         Snackbar.make(coordinatorLayout, "AJUSTOS", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
     }
 }
+
+
