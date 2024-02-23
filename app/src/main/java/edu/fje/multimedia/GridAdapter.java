@@ -12,61 +12,62 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
+    private List<Bloc> mBlocs;
 
     // Constructor
-    public GridAdapter(Context context) {
+    public GridAdapter(Context context, List<Bloc> blocs) {
         mContext = context;
+        mBlocs = blocs;
     }
 
     @Override
     public int getCount() {
-        return 9; // Número de elementos en la cuadrícula (3x3)
+        return mBlocs.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mBlocs.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //ImageView imageView;
         TextView textView;
 
         if (convertView == null) {
-            // Si la vista no existe, crea un nuevo TextView
             textView = new TextView(mContext);
             textView.setLayoutParams(new GridView.LayoutParams(200,200));
             textView.setGravity(android.view.Gravity.CENTER);
-            textView.setTextSize(20); // Tamaño del texto
+            textView.setTextSize(20);
             textView.setPadding(0, 0, 0, 0);
             textView.setIncludeFontPadding(false);
 
-            int[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.GRAY, Color.LTGRAY, Color.DKGRAY};
-            textView.setBackgroundColor(colors[position % colors.length]);
         } else {
-            // Si la vista ya existe, reutiliza la vista
             textView = (TextView) convertView;
         }
 
-        textView.setText(String.valueOf(position + 1));
+        final Bloc bloc = mBlocs.get(position);
+
+        textView.setBackgroundColor(bloc.getColor());
+        textView.setText(String.valueOf(bloc.getId()));
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Se ejecuta cuando se hace clic en un bloque
-                Log.d("GridAdapter", "Bloque clicado: " + (position + 1));
+                Log.d("GridAdapter", "Bloque clicado: " + bloc.getId());
             }
         });
 
-        //return imageView;
         return textView;
     }
 }
