@@ -22,10 +22,10 @@ public class PuzzleFacil extends AppCompatActivity {
         String imagePath = getIntent().getStringExtra("image_path");
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 
-        List<Bitmap> bloques = dividirImagenEnBloques(bitmap);
+        List<Bitmap> bloques = dividirImagenEnBloques(bitmap, 3, 3);
 
         List<Bloc> blocs = new ArrayList<>();
-        for (int i = 0; i < bloques.size(); i++) {
+        for (int i = 0; i < 9; i++) {
             Bloc bloc = new Bloc(i, bloques.get(i));
             blocs.add(bloc);
         }
@@ -33,25 +33,23 @@ public class PuzzleFacil extends AppCompatActivity {
         gridView.setAdapter(new GridAdapter(this, blocs));
     }
 
-    private List<Bitmap> dividirImagenEnBloques(Bitmap bitmap) {
+    private List<Bitmap> dividirImagenEnBloques(Bitmap bitmap, int rows, int cols) {
         List<Bitmap> bloques = new ArrayList<>();
-
-        int blockSize = 100;
 
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
 
-        for (int y = 0; y < height; y += blockSize) {
-            for (int x = 0; x < width; x += blockSize) {
-                // Extraer el bloque de la imagen
-                int blockWidth = Math.min(blockSize, width - x);
-                int blockHeight = Math.min(blockSize, height - y);
+        int blockWidth = width / cols;
+        int blockHeight = height / rows;
+
+        for (int y = 0; y < rows * blockHeight; y += blockHeight) {
+            for (int x = 0; x < cols * blockWidth; x += blockWidth) {
                 Bitmap bloque = Bitmap.createBitmap(bitmap, x, y, blockWidth, blockHeight);
-                // Agregar el bloque a la lista
                 bloques.add(bloque);
             }
         }
 
         return bloques;
     }
+
 }
