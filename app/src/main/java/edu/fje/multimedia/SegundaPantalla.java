@@ -36,6 +36,7 @@ public class SegundaPantalla extends AppCompatActivity {
     private RadioGroup radioGroup;
     private Button button;
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +135,10 @@ public class SegundaPantalla extends AppCompatActivity {
 
     private void abrirCamara() {
         // Crear un intent para abrir la aplicación de la cámara
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivity(intent);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     private void abrirGaleria() {
@@ -153,24 +156,28 @@ public class SegundaPantalla extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Obtiene el URI de la imagen seleccionada
+            // Solicitud de la galería de imágenes
             Uri uri = data.getData();
-
             try {
-                // Cargar la imagen desde el URI
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 String imagePath = saveImageToTempFile(bitmap);
-
-                // Envía la imagen seleccionada a la actividad PuzzleFacil
                 Intent intent = new Intent(SegundaPantalla.this, PuzzleFacil.class);
                 intent.putExtra("image_path", imagePath);
                 startActivity(intent);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null) {
+            // Solicitud de la cámara
+            Bundle extras = data.getExtras();
+            Bitmap bitmap = (Bitmap) extras.get("data");
+            String imagePath = saveImageToTempFile(bitmap);
+            Intent intent = new Intent(SegundaPantalla.this, PuzzleFacil.class);
+            intent.putExtra("image_path", imagePath);
+            startActivity(intent);
         }
     }
+
 
     private String saveImageToTempFile(Bitmap bitmap) {
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
@@ -188,7 +195,6 @@ public class SegundaPantalla extends AppCompatActivity {
 
         return file.getAbsolutePath();
     }
-
 
 }
 
