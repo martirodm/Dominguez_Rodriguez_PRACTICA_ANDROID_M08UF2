@@ -2,29 +2,27 @@ package edu.fje.multimedia;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
     private List<Bloc> mBlocs;
     private Bloc mLastSelectedBloc;
+    private MediaPlayer mediaPlayer;
 
     // Constructor
     public GridAdapter(Context context, List<Bloc> blocs) {
         mContext = context;
         mBlocs = blocs;
+        mediaPlayer = MediaPlayer.create(context, R.raw.slide); // Cargar el sonido
     }
 
     @Override
@@ -55,7 +53,7 @@ public class GridAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        Bloc bloc = mBlocs.get(position);
+        final Bloc bloc = mBlocs.get(position);
 
         imageView.setImageBitmap(bloc.getImageBlock());
 
@@ -69,6 +67,9 @@ public class GridAdapter extends BaseAdapter {
                     intercambiarBloques(mLastSelectedBloc, bloc);
                     mLastSelectedBloc = null;
                 }
+
+                // Reproducir el sonido
+                mediaPlayer.start();
             }
         });
 
@@ -87,5 +88,3 @@ public class GridAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 }
-
-

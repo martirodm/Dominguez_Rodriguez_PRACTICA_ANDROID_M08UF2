@@ -9,6 +9,7 @@
     <string name="back_button_text">Volver</string>
     <string name="camera_button_description">Botón de cámara</string>
     <string name="gallery_button_description">Botón de galería</string>
+    <string name="audio" />
 
 
 </resources>

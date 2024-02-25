@@ -1,6 +1,8 @@
 package edu.fje.multimedia;
 
+
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     private CoordinatorLayout coordinatorLayout;
     private CustomCanvasView customCanvasView; // Declarar la vista personalizada
+    private MediaPlayer mediaPlayer;
+    private boolean isPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Configurar el reproductor de audio
+        mediaPlayer = MediaPlayer.create(this, R.raw.m02_audio1);
+
+        Button audioButton = findViewById(R.id.audio); // Identifica tu botón de audio aquí
+
+        // Configurar el OnClickListener para el botón de audio
+        audioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isPlaying) {
+                    mediaPlayer.start();
+                    isPlaying = true;
+                    audioButton.setText("Pausar Audio");
+                } else {
+                    mediaPlayer.pause();
+                    isPlaying = false;
+                    audioButton.setText("Reproducir Audio");
+                }
+            }
+        });
     }
 
     @Override
@@ -59,5 +84,13 @@ public class MainActivity extends AppCompatActivity {
     private void obrirAjustos() {
         Snackbar.make(coordinatorLayout, "AJUSTOS", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }
