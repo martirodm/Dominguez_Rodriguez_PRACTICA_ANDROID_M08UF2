@@ -10,6 +10,7 @@
     <string name="camera_button_description">Botón de cámara</string>
     <string name="gallery_button_description">Botón de galería</string>
     <string name="audio" />
+    <string name="tiempo">Tiempo:</string>
 
 
 </resources>
