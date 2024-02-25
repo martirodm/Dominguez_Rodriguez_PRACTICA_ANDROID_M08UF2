@@ -1,8 +1,13 @@
 package edu.fje.multimedia;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +23,11 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 public class SegundaPantalla extends AppCompatActivity {
 
     private CoordinatorLayout coordinatorLayout;
@@ -25,6 +35,7 @@ public class SegundaPantalla extends AppCompatActivity {
     private ImageButton galleryButton;
     private RadioGroup radioGroup;
     private Button button;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,12 +141,55 @@ public class SegundaPantalla extends AppCompatActivity {
     private void abrirGaleria() {
         // Crear un intent para abrir la galería de imágenes
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivity(intent);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
     private void abrirAjustos() {
         Snackbar.make(coordinatorLayout, "AJUSTOS", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            // Obtiene el URI de la imagen seleccionada
+            Uri uri = data.getData();
+
+            try {
+                // Cargar la imagen desde el URI
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                String imagePath = saveImageToTempFile(bitmap);
+
+                // Envía la imagen seleccionada a la actividad PuzzleFacil
+                Intent intent = new Intent(SegundaPantalla.this, PuzzleFacil.class);
+                intent.putExtra("image_path", imagePath);
+                startActivity(intent);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String saveImageToTempFile(Bitmap bitmap) {
+        ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
+        File directory = wrapper.getDir("images", Context.MODE_PRIVATE);
+        File file = new File(directory, "temp_image.jpg");
+
+        try {
+            OutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            stream.flush();
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file.getAbsolutePath();
+    }
+
+
 }
 
 

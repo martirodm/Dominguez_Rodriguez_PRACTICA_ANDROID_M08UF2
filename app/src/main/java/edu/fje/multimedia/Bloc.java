@@ -1,13 +1,15 @@
 package edu.fje.multimedia;
 
+import android.graphics.Bitmap;
+
 public class Bloc {
 
     private int id;
-    private int color;
+    private Bitmap imageBlock;
 
-    public Bloc(int id, int color) {
+    public Bloc(int id, Bitmap imageBlock) {
         this.id = id;
-        this.color = color;
+        this.imageBlock = imageBlock;
     }
 
     public int getId() {
@@ -18,11 +20,11 @@ public class Bloc {
         this.id = id;
     }
 
-    public int getColor() {
-        return color;
+    public Bitmap getImageBlock() {
+        return imageBlock;
     }
 
-    public void setColor(int color) {
-        this.color = color;
+    public void setImageBlock(Bitmap imageBlock) {
+        this.imageBlock = imageBlock;
     }
 }

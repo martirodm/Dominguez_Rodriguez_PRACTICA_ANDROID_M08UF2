@@ -1,6 +1,7 @@
 package edu.fje.multimedia;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
     private List<Bloc> mBlocs;
+    private Bloc mLastSelectedBloc;
 
     // Constructor
     public GridAdapter(Context context, List<Bloc> blocs) {
@@ -41,34 +43,49 @@ public class GridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        TextView textView;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        ImageView imageView;
 
         if (convertView == null) {
-            textView = new TextView(mContext);
-            textView.setLayoutParams(new GridView.LayoutParams(200,200));
-            textView.setGravity(android.view.Gravity.CENTER);
-            textView.setTextSize(20);
-            textView.setPadding(0, 0, 0, 0);
-            textView.setIncludeFontPadding(false);
-
+            // Crear una nueva ImageView si no existe una previamente
+            imageView = new ImageView(mContext);
+            imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
-            textView = (TextView) convertView;
+            imageView = (ImageView) convertView;
         }
 
-        final Bloc bloc = mBlocs.get(position);
+        Bloc bloc = mBlocs.get(position);
 
-        textView.setBackgroundColor(bloc.getColor());
-        textView.setText(String.valueOf(bloc.getId()));
+        imageView.setImageBitmap(bloc.getImageBlock());
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("GridAdapter", "Bloque clicado: " + bloc.getId());
+                if (mLastSelectedBloc == null) {
+                    mLastSelectedBloc = bloc;
+                } else {
+                    intercambiarBloques(mLastSelectedBloc, bloc);
+                    mLastSelectedBloc = null;
+                }
             }
         });
 
-        return textView;
+        return imageView;
+    }
+
+    private void intercambiarBloques(Bloc bloc1, Bloc bloc2) {
+        int tempId = bloc1.getId();
+        Bitmap tempBitmap = bloc1.getImageBlock();
+
+        bloc1.setId(bloc2.getId());
+        bloc1.setImageBlock(bloc2.getImageBlock());
+        bloc2.setId(tempId);
+        bloc2.setImageBlock(tempBitmap);
+
+        notifyDataSetChanged();
     }
 }
+
 
