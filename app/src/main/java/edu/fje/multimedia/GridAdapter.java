@@ -1,6 +1,7 @@
 package edu.fje.multimedia;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -72,7 +73,11 @@ public class GridAdapter extends BaseAdapter {
                 }
 
                 if (isJuegoCompleto()) {
-                    Log.d("GridAdapter", "Has ganado");
+                    long tiempoTranscurrido = System.currentTimeMillis() - tiempoInicioJuego;
+                    float segundosTranscurridos = tiempoTranscurrido / 1000f;
+                    Log.d("GridAdapter", "Has ganado! Tiempo transcurrido: " + segundosTranscurridos + " segundos");
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    mContext.startActivity(intent);
                 }
 
                 // Reproducir el sonido
@@ -92,7 +97,10 @@ public class GridAdapter extends BaseAdapter {
         return imageView;
     }
 
+    private long tiempoInicioJuego;
+
     private void mezclarBloques() {
+        tiempoInicioJuego = System.currentTimeMillis();
         for (int i = 0; i < mBlocs.size(); i++) {
             int randomIndex = (int) (Math.random() * mBlocs.size());
             intercambiarBloques(mBlocs.get(i), mBlocs.get(randomIndex));
