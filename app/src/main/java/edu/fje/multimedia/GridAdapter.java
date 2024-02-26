@@ -23,6 +23,9 @@ public class GridAdapter extends BaseAdapter {
         mContext = context;
         mBlocs = blocs;
         mediaPlayer = MediaPlayer.create(context, R.raw.slide); // Cargar el sonido
+
+        mezclarBloques();
+
     }
 
     @Override
@@ -68,12 +71,33 @@ public class GridAdapter extends BaseAdapter {
                     mLastSelectedBloc = null;
                 }
 
+                if (isJuegoCompleto()) {
+                    Log.d("GridAdapter", "Has ganado");
+                }
+
                 // Reproducir el sonido
                 mediaPlayer.start();
+            }
+
+            private boolean isJuegoCompleto() {
+                for (int i = 0; i < mBlocs.size(); i++) {
+                    if (mBlocs.get(i).getId() != i) {
+                        return false;
+                    }
+                }
+                return true;
             }
         });
 
         return imageView;
+    }
+
+    private void mezclarBloques() {
+        for (int i = 0; i < mBlocs.size(); i++) {
+            int randomIndex = (int) (Math.random() * mBlocs.size());
+            intercambiarBloques(mBlocs.get(i), mBlocs.get(randomIndex));
+        }
+        notifyDataSetChanged();
     }
 
     private void intercambiarBloques(Bloc bloc1, Bloc bloc2) {
