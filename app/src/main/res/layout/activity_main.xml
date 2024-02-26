@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="59dp"
+        android:fontFamily="@font/bangers"
         android:text="@string/credits_text"
         android:textSize="12sp"
         android:textStyle="italic"
