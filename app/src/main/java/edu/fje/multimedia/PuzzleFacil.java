@@ -24,7 +24,6 @@ public class PuzzleFacil extends AppCompatActivity {
         GridView gridView = findViewById(R.id.gridView);
         textViewTiempo = findViewById(R.id.textViewTiempo);
 
-        // Obtener la imagen enviada desde SegundaPantalla
         String imagePath = getIntent().getStringExtra("image_path");
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 
@@ -37,11 +36,9 @@ public class PuzzleFacil extends AppCompatActivity {
         }
 
         gridView.setAdapter(new GridAdapter(this, blocs));
-        // Iniciar el tiempo al crear la actividad
         tiempoInicio = System.currentTimeMillis();
         actualizarTiempo();
     }
-    // Método para actualizar el TextView del tiempo
     private void actualizarTiempo() {
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -52,11 +49,9 @@ public class PuzzleFacil extends AppCompatActivity {
                 long minutos = segundos / 60;
                 segundos = segundos % 60;
 
-                // Formatear el tiempo transcurrido y mostrarlo en el TextView
                 String tiempoTranscurridoStr = String.format("%02d:%02d", minutos, segundos);
                 textViewTiempo.setText("Tiempo: " + tiempoTranscurridoStr);
 
-                // Actualizar cada segundo
                 handler.postDelayed(this, 1000);
             }
         });

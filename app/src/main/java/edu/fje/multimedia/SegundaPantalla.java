@@ -46,17 +46,13 @@ public class SegundaPantalla extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Obtener referencias a los botones de la cámara y la galería
         cameraButton = findViewById(R.id.imageButton2);
         galleryButton = findViewById(R.id.imageButton3);
 
-        // Obtener referencia al RadioGroup
         radioGroup = findViewById(R.id.radioGroup);
 
-        // Obtener referencia al botón
         button = findViewById(R.id.button);
 
-        // Configurar animación para el botón
         ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(button, "scaleX", 0f, 1f);
         scaleXAnimator.setDuration(1000);
         scaleXAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -68,17 +64,14 @@ public class SegundaPantalla extends AppCompatActivity {
         scaleXAnimator.start();
         scaleYAnimator.start();
 
-        // Agregar listener de clic al botón
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Código para abrir puzzle
                 Intent intent = new Intent(SegundaPantalla.this, PuzzleFacil.class);
                 startActivity(intent);
             }
         });
 
-        // Agregar listener de clic al botón de la cámara
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +79,6 @@ public class SegundaPantalla extends AppCompatActivity {
             }
         });
 
-        // Agregar listener de clic al botón de la galería
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,11 +86,9 @@ public class SegundaPantalla extends AppCompatActivity {
             }
         });
 
-        // Agregar listener para detectar cambios en la selección de RadioButton
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // Desseleccionar todos los botones de opción si se selecciona uno
                 RadioButton radioButtonFacil = findViewById(R.id.radioButtonFacil);
                 RadioButton radioButtonIntermedio = findViewById(R.id.radioButtonIntermedio);
                 RadioButton radioButtonDificil = findViewById(R.id.radioButtonDificil);
@@ -134,7 +124,6 @@ public class SegundaPantalla extends AppCompatActivity {
     }
 
     private void abrirCamara() {
-        // Crear un intent para abrir la aplicación de la cámara
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
@@ -142,7 +131,6 @@ public class SegundaPantalla extends AppCompatActivity {
     }
 
     private void abrirGaleria() {
-        // Crear un intent para abrir la galería de imágenes
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
@@ -156,7 +144,6 @@ public class SegundaPantalla extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Solicitud de la galería de imágenes
             Uri uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
@@ -168,7 +155,6 @@ public class SegundaPantalla extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null) {
-            // Solicitud de la cámara
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get("data");
             String imagePath = saveImageToTempFile(bitmap);

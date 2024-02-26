@@ -8,17 +8,30 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private CoordinatorLayout coordinatorLayout;
-    private CustomCanvasView customCanvasView; // Declarar la vista personalizada
+    private CustomCanvasView customCanvasView;
     private MediaPlayer mediaPlayer;
     private boolean isPlaying = false;
 
@@ -30,26 +43,23 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Inicializar la vista personalizada
+
         customCanvasView = findViewById(R.id.customCanvas);
 
-        Button button = findViewById(R.id.button); // Identifica tu botón aquí
+        Button button = findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Código para abrir la SegundaPantalla
                 Intent intent = new Intent(MainActivity.this, SegundaPantalla.class);
                 startActivity(intent);
             }
         });
 
-        // Configurar el reproductor de audio
         mediaPlayer = MediaPlayer.create(this, R.raw.m02_audio1);
 
-        Button audioButton = findViewById(R.id.audio); // Identifica tu botón de audio aquí
+        Button audioButton = findViewById(R.id.audio);
 
-        // Configurar el OnClickListener para el botón de audio
         audioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +72,38 @@ public class MainActivity extends AppCompatActivity {
                     isPlaying = false;
                     audioButton.setText("Reproducir Audio");
                 }
+            }
+        });
+
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("tiempo_juego");
+        Query query = databaseRef.orderByChild("segundos_transcurridos").limitToFirst(5);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Float> tiempos = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    float tiempo = snapshot.getValue(Float.class);
+                    tiempos.add(tiempo);
+                }
+                Collections.sort(tiempos);
+                TextView tiempo1 = findViewById(R.id.tiempo1);
+                TextView tiempo2 = findViewById(R.id.tiempo2);
+                TextView tiempo3 = findViewById(R.id.tiempo3);
+                TextView tiempo4 = findViewById(R.id.tiempo4);
+                TextView tiempo5 = findViewById(R.id.tiempo5);
+
+                if (tiempos.size() > 0) tiempo1.setText(String.valueOf(tiempos.get(0)));
+                if (tiempos.size() > 1) tiempo2.setText(String.valueOf(tiempos.get(1)));
+                if (tiempos.size() > 2) tiempo3.setText(String.valueOf(tiempos.get(2)));
+                if (tiempos.size() > 3) tiempo4.setText(String.valueOf(tiempos.get(3)));
+                if (tiempos.size() > 4) tiempo5.setText(String.valueOf(tiempos.get(4)));
+            
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

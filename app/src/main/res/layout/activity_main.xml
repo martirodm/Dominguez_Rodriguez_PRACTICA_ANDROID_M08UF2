@@ -14,9 +14,11 @@
         android:text="@string/play_button_text"
         app:layout_constraintBottom_toTopOf="@+id/creditsTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customCanvas" />
+
+    <!-- Reemplazar RecyclerView con CustomCanvasView -->
 
     <TextView
         android:id="@+id/creditsTextView"
@@ -32,7 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
-    <!-- Reemplazar RecyclerView con CustomCanvasView -->
     <edu.fje.multimedia.CustomCanvasView
         android:id="@+id/customCanvas"
         android:layout_width="217dp"
@@ -44,6 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingClass" />
+
     <Button
         android:id="@+id/audio"
         android:layout_width="wrap_content"
@@ -51,8 +53,72 @@
         android:text="@string/audio"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customCanvas"
-        />
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/tiempo1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="480dp"
+        android:text="Tiempo 1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tiempo3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="8dp"
+        android:text="Tiempo 3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiempo2" />
+
+    <TextView
+        android:id="@+id/tiempo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="8dp"
+        android:text="Tiempo 2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiempo1" />
+
+    <TextView
+        android:id="@+id/tiempo4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="8dp"
+        android:text="Tiempo 4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiempo3" />
+
+    <TextView
+        android:id="@+id/tiempo5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="8dp"
+        android:text="Tiempo 5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiempo4" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="67dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="4dp"
+        android:text="-TOP Millors Temps-"
+        app:layout_constraintBottom_toTopOf="@+id/tiempo1"
+        app:layout_constraintEnd_toEndOf="@+id/audio"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

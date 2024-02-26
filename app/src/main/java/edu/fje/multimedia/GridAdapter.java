@@ -11,6 +11,14 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 public class GridAdapter extends BaseAdapter {
@@ -19,11 +27,11 @@ public class GridAdapter extends BaseAdapter {
     private Bloc mLastSelectedBloc;
     private MediaPlayer mediaPlayer;
 
-    // Constructor
+
     public GridAdapter(Context context, List<Bloc> blocs) {
         mContext = context;
         mBlocs = blocs;
-        mediaPlayer = MediaPlayer.create(context, R.raw.slide); // Cargar el sonido
+        mediaPlayer = MediaPlayer.create(context, R.raw.slide);
 
         mezclarBloques();
 
@@ -49,7 +57,6 @@ public class GridAdapter extends BaseAdapter {
         ImageView imageView;
 
         if (convertView == null) {
-            // Crear una nueva ImageView si no existe una previamente
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -75,12 +82,14 @@ public class GridAdapter extends BaseAdapter {
                 if (isJuegoCompleto()) {
                     long tiempoTranscurrido = System.currentTimeMillis() - tiempoInicioJuego;
                     float segundosTranscurridos = tiempoTranscurrido / 1000f;
+                    DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("tiempo_juego");
+                    String key = databaseRef.push().getKey();
+                    databaseRef.child(key).setValue(segundosTranscurridos);
                     Log.d("GridAdapter", "Has ganado! Tiempo transcurrido: " + segundosTranscurridos + " segundos");
                     Intent intent = new Intent(mContext, MainActivity.class);
                     mContext.startActivity(intent);
                 }
 
-                // Reproducir el sonido
                 mediaPlayer.start();
             }
 
